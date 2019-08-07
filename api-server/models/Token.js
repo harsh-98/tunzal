@@ -8,6 +8,7 @@ var TokenSchema = mongoose.Schema({
 	},
     refundInvoice:String,
     payInvoice:String,
+    rHash:String,
 	planAmount: {
 		type: Number
     },
@@ -17,5 +18,6 @@ var TokenSchema = mongoose.Schema({
     revoked: { type : Boolean, default: true },
     revokeTime: { type : Date, default: Date.now }
 });
+// },{ _id: false });
 
 export default mongoose.model('Token', TokenSchema);

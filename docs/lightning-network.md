@@ -16,7 +16,6 @@ It is safe to use bitcoin testnet while testing lightning network as this projec
 
 To use the service provided by BTCpayserver, we need to create an account, store and merchant facade. I am going to use [testnet.demo.btcpayserver.org](testnet.demo.btcpayserver.org) hosted by BTCpayserver organisation itself. While creating store we have to provide the derviation scheme refer [http://bip32.org/](http://bip32.org/), [https://iancoleman.io/bip39/](https://iancoleman.io/bip39/) and [https://gobittest.appspot.com/PrivateKey](https://gobittest.appspot.com/PrivateKey).
 
-Append the
 
 
 Reference:
