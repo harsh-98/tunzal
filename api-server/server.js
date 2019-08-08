@@ -8,7 +8,7 @@ require('dotenv').config()
 
 mongoose.Promise = global.Promise;
 
-const MONGOURL = `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPASS}@${process.env.MONGOURL}`;
+const MONGOURL = `mongodb://${process.env.MONGOUSER}:${process.env.MONGOPASS}@${process.env.MONGOURL}`;
 mongoose.connect(MONGOURL);
 const app = express();
 
@@ -17,7 +17,10 @@ morgan.token('body', function getId(req) {
 })
 
 app.use((req, res, next)=> {
-    next()
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
 })
 app.use(express.json());
 
@@ -28,6 +31,7 @@ let options = {
   }
 app.use(express.static(path.join(__dirname, 'public'),
     options))
+app.use(morgan(':method :url :body :response-time'));
 
 
 app.use('/api', routes);

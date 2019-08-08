@@ -9,6 +9,7 @@ export const addPlan = async (req, res) => {
         var newToken = new Token({
             token: token,
             planAmount: req.body['plan'],
+            username: req.body['username'],
             refundInvoice: req.body['refundInvoice'],
             payInvoice: generatedInvoice['pay_req'],
             rHash: generatedInvoice['r_hash']
@@ -19,7 +20,7 @@ export const addPlan = async (req, res) => {
 
 		});
 
-        res.status(200).json({"status": "Success", "api-token": token, "payInvoice": generatedInvoice['pay_req']});
+        res.status(200).json({"status": "Success", "apiToken": token, "payInvoice": generatedInvoice['pay_req']});
     } else {
         res.status(400).json({"Error": "Missing parameter"});
     }
@@ -33,7 +34,7 @@ export const checkInvoice = async (req, res) => {
             let invoiceDetails = await lookupInvoice(dbResponse['rHash'])
             console.log(invoiceDetails)
             if(invoiceDetails['settled']){
-                await Token.findOneAndUpdate({token: req.body['token']}, { $set: { revoked: false } });
+                await Token.findOneAndUpdate({token: req.body['token']}, { $set: { revoked: false, settleTime: invoiceDetails['settle_date']} });
             } else {
                 return res.status(200).json({"status": "Success", "response": "payment pending"});
             }
@@ -51,6 +52,8 @@ export const getRefund = async (req, res) => {
             let refundAmount = dbResponse['planAmount'] - dbResponse['useTime'];
         let lndResponse = await sendPayment(dbResponse['refundInvoice'], refundAmount)
             console.log(lndResponse)
+            await Token.findOneAndUpdate({token: req.body['token']}, { $set: { revoked: true } });
+            return res.status(200).json({"status": "Success", "response": `Refunded ${refundAmount}`})
         }
         return res.status(200).json({"status": "Failed", "response": "Either Token expired or payment not received."});
     }
