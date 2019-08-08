@@ -18,15 +18,23 @@ import AddIcon from '@material-ui/icons/Add';
 class Landing extends Component {
     constructor() {
         super()
-        this.state = { refundInvoice: "", plan: { duration: 0 }, index: -1, copied: false }
+        this.state = { refundInvoice: "", plan: { duration: 0 }, index: -1, copied: false, user: {}}
         this.selectPlan = this.selectPlan.bind(this)
         this.renderApiResponse = this.renderApiResponse.bind(this)
         this.apiForm = this.apiForm.bind(this)
         this.copy = this.copy.bind(this)
         this.gotoGenerate = this.gotoGenerate.bind(this)
+        this.signOut = this.signOut.bind(this)
+
+
         // this.purchase = this.purchase.bind(this)
     }
 
+    componentWillMount(){
+        if (!this.state.user.hasOwnProperty('username')){
+            this.setState({ user: this.props.userSession.loadUserData()})
+        }
+    }
     helperText() {
         let amount = this.state.plan.duration;
         if (amount != 0)
@@ -52,6 +60,12 @@ class Landing extends Component {
         console.log("hasad")
         this.props.setResponse({})
         this.setState({ plan: {duration: 0}, index: -1, refundInvoice: "" })
+    }
+
+    signOut(e) {
+        e.preventDefault()
+        this.props.userSession.signUserOut()
+        window.location = '/'
     }
 
     renderApiResponse() {
@@ -161,7 +175,7 @@ class Landing extends Component {
     render() {
         return (
             <div>
-                <NavBar title={this.props.response.hasOwnProperty("payInvoice") ? "Your Tokens": "Generate Token"}/>
+                <NavBar title={this.props.response.hasOwnProperty("payInvoice") ? "Your Tokens": "Generate Token"} username={this.state.user.username} signOut={this.signOut}/>
                 <MySnackBar variant="success" message="Copied" open={this.state.copy} />
                 <Container maxWidth="lg" className="setplan">
                     {this.props.response.hasOwnProperty("payInvoice") ? this.renderApiResponse() : this.apiForm()}
@@ -175,7 +189,8 @@ const mapStateToProps = state => {
     return {
         plans: state.plans,
         selected: state.selected,
-        response: state.response
+        response: state.response,
+        userSession: state.userSession
     };
 };
 

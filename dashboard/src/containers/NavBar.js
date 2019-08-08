@@ -39,6 +39,9 @@ class ButtonAppBar extends Component {
           <Typography variant="h6" className="userImage" >
             {this.props.title}
           </Typography>
+          <Typography variant="h6" >
+            {this.props.username}
+          </Typography>
           {true && (
             <div>
               <IconButton
@@ -65,7 +68,7 @@ class ButtonAppBar extends Component {
                 open={this.state.open}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={this.signout}>Sign out</MenuItem>
+                <MenuItem onClick={this.props.signOut}>Sign out</MenuItem>
               </Menu>
             </div>
           )}

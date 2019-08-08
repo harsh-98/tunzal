@@ -5,7 +5,8 @@ export const purchasePlan = (state) => {
     return async (dispatch) => {
         let response = await axios.post(`/plan`, {
             refundInvoice: state.refundInvoice,
-            plan: state.plan.duration
+            plan: state.plan.duration,
+            username: state.user.username
         })
             dispatch({
                 type: 'SETRESPONSE',
