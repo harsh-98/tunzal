@@ -8,9 +8,16 @@ export const purchasePlan = (state) => {
             plan: state.plan.duration
         })
             dispatch({
-                type: 'PURCHASEPLAN',
+                type: 'SETRESPONSE',
                 response: response.data
             });
 
       };
 };
+
+export const setResponse = (response) => {
+    return {
+        type: "SETRESPONSE",
+        response: {}
+    }
+}

@@ -19,3 +19,9 @@
 .darkStyle {
     background-color: #B9BBB6;
 }
+
+.addButton{
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+}

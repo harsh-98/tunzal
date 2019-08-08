@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectPlan, purchasePlan } from '../actions'
+import { purchasePlan,setResponse } from '../actions'
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,7 +10,10 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import './Landing.css';
 import MySnackBar from './MySnackBar';
+import NavBar from './NavBar';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 class Landing extends Component {
     constructor() {
@@ -20,6 +23,7 @@ class Landing extends Component {
         this.renderApiResponse = this.renderApiResponse.bind(this)
         this.apiForm = this.apiForm.bind(this)
         this.copy = this.copy.bind(this)
+        this.gotoGenerate = this.gotoGenerate.bind(this)
         // this.purchase = this.purchase.bind(this)
     }
 
@@ -44,12 +48,18 @@ class Landing extends Component {
         this.setState({copy: true})
     }
 
+    gotoGenerate() {
+        console.log("hasad")
+        this.props.setResponse({})
+        this.setState({ plan: {duration: 0}, index: -1, refundInvoice: "" })
+    }
+
     renderApiResponse() {
         return (<div>
             <Grid container spacing={3}>
                 <CopyToClipboard text={this.props.response.payInvoice}
                     onCopy={this.copy}>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                         <TextField
                             id="outlined-full-width"
                             label="PayInvoice"
@@ -69,7 +79,7 @@ class Landing extends Component {
                 </CopyToClipboard>
                 <CopyToClipboard text={this.props.response.apiToken}
                     onCopy={this.copy}>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                         <TextField
                             id="outlined-full-width"
                             label="Api Token"
@@ -89,6 +99,11 @@ class Landing extends Component {
                     </Grid>
                 </CopyToClipboard>
             </Grid>
+            <div className="addButton" onClick={this.gotoGenerate}>
+          <Fab aria-label="Add"  color="primary">
+          <AddIcon />
+          </Fab>
+            </div>
         </div>)
     }
 
@@ -146,7 +161,8 @@ class Landing extends Component {
     render() {
         return (
             <div>
-                <MySnackBar variant="success" message="Copied" open={this.state.copy}/>
+                <NavBar title={this.props.response.hasOwnProperty("payInvoice") ? "Your Tokens": "Generate Token"}/>
+                <MySnackBar variant="success" message="Copied" open={this.state.copy} />
                 <Container maxWidth="lg" className="setplan">
                     {this.props.response.hasOwnProperty("payInvoice") ? this.renderApiResponse() : this.apiForm()}
                 </Container>
@@ -167,6 +183,9 @@ const mapDispatchToProps = dispatch => {
     return {
         purchasePlan: (state) => {
             purchasePlan(state)(dispatch);
+        },
+        setResponse: (state) => {
+            dispatch(setResponse(state));
         },
     }
 };
