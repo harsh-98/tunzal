@@ -113,6 +113,9 @@ class Landing extends Component {
                     </Grid>
                 </CopyToClipboard>
             </Grid>
+            <Button variant="contained" color="primary" onClick={() => this.props.purchasePlan(this.state)}>
+                { "Activate": "Activated"}
+                    </Button>
             <div className="addButton" onClick={this.gotoGenerate}>
           <Fab aria-label="Add"  color="primary">
           <AddIcon />

@@ -20,9 +20,9 @@ export const addPlan = async (req, res) => {
 
 		});
 
-        res.status(200).json({"status": "Success", "apiToken": token, "payInvoice": generatedInvoice['pay_req']});
+        res.status(200).json({"status": "success", "apiToken": token, "payInvoice": generatedInvoice['pay_req']});
     } else {
-        res.status(400).json({"Error": "Missing parameter"});
+        res.status(400).json({"response": "Missing parameter", "status": "error"});
     }
 };
 
@@ -57,6 +57,15 @@ export const getRefund = async (req, res) => {
         }
         return res.status(200).json({"status": "Failed", "response": "Either Token expired or payment not received."});
     }
-    res.status(400).json({"Error": "Token parameter missing"})
+    res.status(400).json({"response": "Token parameter missing", "status": "error"})
 };
 
+
+export const getUserToken = async (req, res) => {
+    if(req.body && req.body['username']) {
+        let dbResponse = await Token.find({username: req.body['username']},{payInvoice: 1, token: 1, useTime:1, planAmount: 1, revoked: 1})
+        console.log(dbResponse)
+        return res.status(200).json({"response": dbResponse, , "status": "success"})
+    }
+    return res.status(400).json({"response": "username missing", "status": "error"})
+}

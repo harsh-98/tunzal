@@ -15,6 +15,18 @@ export const purchasePlan = (state) => {
 
       };
 };
+export const activateToken = (token) => {
+    return async (dispatch) => {
+        let response = await axios.post(`/check/invoice`, {
+            token
+        })
+            dispatch({
+                type: 'SETRESPONSE',
+                response: response.data
+            });
+
+      };
+};
 
 export const setResponse = (response) => {
     return {

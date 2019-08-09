@@ -16,7 +16,7 @@ export const initialState = {
         {
             name: "Plan C",
             description: "1 Month (1 satoshi per min)",
-            cost: "1440 satoshis",
+            cost: "43200 satoshis",
             duration: 43200
         },
         {
