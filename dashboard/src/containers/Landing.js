@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { purchasePlan,setResponse } from '../actions'
+import { purchasePlan,setResponse, activateToken, getRefund, fetchUserTokens } from '../actions'
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -113,8 +113,9 @@ class Landing extends Component {
                     </Grid>
                 </CopyToClipboard>
             </Grid>
-            <Button variant="contained" color="primary" onClick={() => this.props.purchasePlan(this.state)}>
-                { "Activate": "Activated"}
+            <Button variant="contained" color="primary" onClick={() => this.props.activateToken("415b45e0f49a705df71017889e36aac474ffa86fc4936c0c")}>
+            {/* <Button variant="contained" color="primary" onClick={() => this.props.activateToken(this.props.response.apiToken)}> */}
+                {this.props.check.status == "success"? "Activated": "Activate"}
                     </Button>
             <div className="addButton" onClick={this.gotoGenerate}>
           <Fab aria-label="Add"  color="primary">
@@ -178,10 +179,10 @@ class Landing extends Component {
     render() {
         return (
             <div>
-                <NavBar title={this.props.response.hasOwnProperty("payInvoice") ? "Your Tokens": "Generate Token"} username={this.state.user.username} signOut={this.signOut}/>
+                <NavBar title={this.props.response.hasOwnProperty("status") ? "Your Tokens": "Generate Token"} username={this.state.user.username} signOut={this.signOut}/>
                 <MySnackBar variant="success" message="Copied" open={this.state.copy} />
                 <Container maxWidth="lg" className="setplan">
-                    {this.props.response.hasOwnProperty("payInvoice") ? this.renderApiResponse() : this.apiForm()}
+                    {this.props.response.hasOwnProperty("status") ? this.renderApiResponse() : this.apiForm()}
                 </Container>
             </div>
         )
@@ -193,14 +194,26 @@ const mapStateToProps = state => {
         plans: state.plans,
         selected: state.selected,
         response: state.response,
-        userSession: state.userSession
-    };
+        userSession: state.userSession,
+        check: state.check,
+        refund: state.refund,
+        userToken: state.userToken
+    }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         purchasePlan: (state) => {
             purchasePlan(state)(dispatch);
+        },
+        getRefund: (state) => {
+            getRefund(state)(dispatch);
+        },
+        activateToken: (state) => {
+            activateToken(state)(dispatch);
+        },
+        fetchUserTokens: (state) => {
+            fetchUserTokens(state)(dispatch);
         },
         setResponse: (state) => {
             dispatch(setResponse(state));

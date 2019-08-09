@@ -1,9 +1,8 @@
 import {initialState} from '../store/initialState'
 
-export default (state = initialState.response, action) => {
+export default (state = initialState.refund, action) => {
     switch (action.type) {
-        case 'SETRESPONSE':
-            console.log(action.response)
+        case 'SETREFUND':
             return action.response
         default:
             return state

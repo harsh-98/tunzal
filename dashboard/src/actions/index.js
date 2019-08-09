@@ -21,7 +21,31 @@ export const activateToken = (token) => {
             token
         })
             dispatch({
-                type: 'SETRESPONSE',
+                type: 'SETCHECK',
+                response: response.data
+            });
+
+      };
+};
+export const getRefund = (token) => {
+    return async (dispatch) => {
+        let response = await axios.post(`/refund`, {
+            token
+        })
+            dispatch({
+                type: 'SETREFUND',
+                response: response.data
+            });
+
+      };
+};
+export const fetchUserTokens = (token) => {
+    return async (dispatch) => {
+        let response = await axios.post(`/user/token`, {
+            token
+        })
+            dispatch({
+                type: 'SETUSERTOKENS',
                 response: response.data
             });
 

@@ -37,5 +37,16 @@ export const initialState = {
         }
     ],
     response: {},
-    userSession: new UserSession({ appConfig: new AppConfig(['store_write', 'publish_data']) })
+    userSession: new UserSession({ appConfig: new AppConfig(['store_write', 'publish_data']) }),
+    userToken: [
+        {
+            token: "",
+            payInvoice: "",
+            useTime: 0,
+            planAmount: 60,
+            revoked: true
+        }
+    ],
+    check: {status: ""},
+    refund: {status:""}
 };
