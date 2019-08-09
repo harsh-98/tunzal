@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Landing from './Landing';
+import ListUserToken from './ListUserToken';
 import { connect } from 'react-redux';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import Fab from '@material-ui/core/Fab'
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
 class App extends Component {
@@ -57,7 +59,21 @@ class App extends Component {
               </Fab>
             </Grid>)
           :
-          <Landing />
+          <Router>
+              <Route exact
+                path='/plans/:username'
+                component={() => <Landing/>}
+              />
+              <Route exact
+                path='/'
+                component={() => <Landing/>}
+              />
+              <Route exact
+                path='/list/tokens'
+                  component={() => <ListUserToken/>}
+
+              />
+          </Router>
         }
       </div>
     )
