@@ -39,18 +39,30 @@ export const getRefund = (token) => {
 
       };
 };
-export const fetchUserTokens = (token) => {
+export const fetchUserTokens = (username) => {
     return async (dispatch) => {
         let response = await axios.post(`/user/token`, {
-            token
+            username
         })
             dispatch({
                 type: 'SETUSERTOKENS',
-                response: response.data
+                response: response.data.tokens
             });
 
       };
 };
+export const clearCheck = () =>{
+    return {
+        type: 'SETCHECK',
+        response: {}
+    }
+}
+export const clearRefund = () =>{
+    return {
+        type: 'SETREFUND',
+        response: {}
+    }
+}
 
 export const setResponse = (response) => {
     return {

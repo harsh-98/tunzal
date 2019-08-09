@@ -10,15 +10,18 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import './NavBar.css'
+import { connect } from 'react-redux';
 
 
 
-class ButtonAppBar extends Component {
+
+class NavBar extends Component {
     constructor(){
         super()
         this.handleMenu = this.handleMenu.bind(this)
         this.handleClose = this.handleClose.bind(this)
-        this.state = {anchor: null, open: false}
+        this.signOut = this.signOut.bind(this)
+        this.state = {anchor: null, open: false, user: {}}
     }
 
     handleMenu(event) {
@@ -26,6 +29,16 @@ class ButtonAppBar extends Component {
     }
     handleClose(event) {
         this.setState({anchor: null, open: false});
+    }
+    signOut(e) {
+        e.preventDefault()
+        this.props.userSession.signUserOut()
+        window.location = '/'
+    }
+    componentWillMount(){
+        if (!this.state.user.hasOwnProperty('username')){
+            this.setState({ user: this.props.userSession.loadUserData()})
+        }
     }
   render(){
 
@@ -40,7 +53,7 @@ class ButtonAppBar extends Component {
             {this.props.title}
           </Typography>
           <Typography variant="h6" >
-            {this.props.username}
+            {this.state.user.username}
           </Typography>
           {true && (
             <div>
@@ -68,7 +81,8 @@ class ButtonAppBar extends Component {
                 open={this.state.open}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={this.props.signOut}>Sign out</MenuItem>
+                <MenuItem onClick={()=> {window.location=this.props.endpoint}}>{this.props.message}</MenuItem>
+                <MenuItem onClick={this.signOut}>Sign out</MenuItem>
               </Menu>
             </div>
           )}
@@ -78,4 +92,17 @@ class ButtonAppBar extends Component {
   )}
 }
 
-export default ButtonAppBar
+const mapStateToProps = state => {
+    return {
+        userSession: state.userSession,
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps)(NavBar);

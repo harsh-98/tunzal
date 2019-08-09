@@ -18,26 +18,18 @@ class App extends Component {
 
   componentWillMount() {
     const session = this.props.userSession
-    console.log(session)
-    console.log(session.isUserSignedIn())
-    console.log(session.isSignInPending())
     if (!session.isUserSignedIn() && session.isSignInPending()) {
-      console.log(session)
-      console.log(session)
-      console.log("componenetwill")
       session.handlePendingSignIn()
         .then((userData) => {
           if (!userData.username) {
             throw new Error('This app requires a username.')
           }
-          window.location = `/plans/${userData.username}`
+          window.location = "/generate/token"
         })
     }
   }
 
   signIn(e) {
-    console.log("sample")
-    console.log(this.props.userSession)
     e.preventDefault()
     this.props.userSession.redirectToSignIn()
   }
@@ -61,7 +53,7 @@ class App extends Component {
           :
           <Router>
               <Route exact
-                path='/plans/:username'
+                path='/generate/token'
                 component={() => <Landing/>}
               />
               <Route exact

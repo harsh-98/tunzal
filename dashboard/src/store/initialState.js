@@ -47,6 +47,6 @@ export const initialState = {
             revoked: true
         }
     ],
-    check: {status: ""},
-    refund: {status:""}
+    check: {},
+    refund: {}
 };

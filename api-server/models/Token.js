@@ -13,6 +13,7 @@ var TokenSchema = mongoose.Schema({
 	planAmount: {
 		type: Number
     },
+    refunded: { type : Boolean, default: false },
     useTime: { type : Number, default: 0 },
     createTime : { type : Date, default: Date.now },
     settleTime : { type : Date, default: Date.now },

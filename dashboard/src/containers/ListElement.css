@@ -1,0 +1,40 @@
+.root{
+    width: 100%;
+}
+
+.heading {
+    font-size:40px;
+}
+
+.secondaryHeading {
+    color: red;
+    font-size: 40px;
+}
+
+.icon {
+    vertical-align: bottom;
+    height: 20px;
+    width: 20px;
+}
+
+.details {
+    align-items: center;
+}
+
+.column {
+    flex-basis: 33.33%;
+}
+
+.helper{
+    border-left: 2px solid  #38546d;
+    padding: 2px;
+}
+
+.link {
+    color: blue;
+    text-decoration: none;
+}
+
+.link:hover{
+    text-decoration: underline;
+}

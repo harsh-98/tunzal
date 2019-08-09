@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { purchasePlan,setResponse, activateToken, getRefund, fetchUserTokens } from '../actions'
+import { purchasePlan,setResponse, activateToken } from '../actions'
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,8 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import './Landing.css';
-import MySnackBar from './MySnackBar';
 import NavBar from './NavBar';
+import MySnackBar from './MySnackBar';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -57,7 +57,6 @@ class Landing extends Component {
     }
 
     gotoGenerate() {
-        console.log("hasad")
         this.props.setResponse({})
         this.setState({ plan: {duration: 0}, index: -1, refundInvoice: "" })
     }
@@ -113,8 +112,7 @@ class Landing extends Component {
                     </Grid>
                 </CopyToClipboard>
             </Grid>
-            <Button variant="contained" color="primary" onClick={() => this.props.activateToken("415b45e0f49a705df71017889e36aac474ffa86fc4936c0c")}>
-            {/* <Button variant="contained" color="primary" onClick={() => this.props.activateToken(this.props.response.apiToken)}> */}
+            <Button variant="contained" color="primary" onClick={() => this.props.activateToken(this.props.response.apiToken)}>
                 {this.props.check.status == "success"? "Activated": "Activate"}
                     </Button>
             <div className="addButton" onClick={this.gotoGenerate}>
@@ -179,7 +177,7 @@ class Landing extends Component {
     render() {
         return (
             <div>
-                <NavBar title={this.props.response.hasOwnProperty("status") ? "Your Tokens": "Generate Token"} username={this.state.user.username} signOut={this.signOut}/>
+                <NavBar title={this.props.response.hasOwnProperty("status") ? "Your Tokens": "Generate Token"} message="View Tokens" endpoint="/list/tokens"/>
                 <MySnackBar variant="success" message="Copied" open={this.state.copy} />
                 <Container maxWidth="lg" className="setplan">
                     {this.props.response.hasOwnProperty("status") ? this.renderApiResponse() : this.apiForm()}
@@ -206,14 +204,8 @@ const mapDispatchToProps = dispatch => {
         purchasePlan: (state) => {
             purchasePlan(state)(dispatch);
         },
-        getRefund: (state) => {
-            getRefund(state)(dispatch);
-        },
         activateToken: (state) => {
             activateToken(state)(dispatch);
-        },
-        fetchUserTokens: (state) => {
-            fetchUserTokens(state)(dispatch);
         },
         setResponse: (state) => {
             dispatch(setResponse(state));

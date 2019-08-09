@@ -30,17 +30,17 @@ export const checkInvoice = async (req, res) => {
     if(req.body && req.body['token']){
         let dbResponse = await Token.findOne({token: req.body['token']})
         console.log(dbResponse)
-        if(dbResponse['revoked'] == true){
+        if(dbResponse['revoked'] && !invoiceDetails['refunded']){
             let invoiceDetails = await lookupInvoice(dbResponse['rHash'])
             console.log(invoiceDetails)
             if(invoiceDetails['settled']){
                 await Token.findOneAndUpdate({token: req.body['token']}, { $set: { revoked: false, settleTime: invoiceDetails['settle_date']} });
+                return res.status(200).json({"status": "success", "response": "Token active"});
             } else {
-                return res.status(200).json({"status": "Success", "response": "payment pending"});
+                return res.status(200).json({"status": "warning", "response": "payment pending"});
             }
         }
-        Token.findOneAndUpdate({token: req.body['token']}, { $set: { revoked: false } });
-        return res.status(200).json({"status": "Success", "response": "Token active"});
+        return res.status(200).json({"status": "info", "response": "Refund collected, token expired"});
     }
 };
 
@@ -48,14 +48,16 @@ export const getRefund = async (req, res) => {
     if(req.body && req.body['token']) {
         let dbResponse = await Token.findOne({token: req.body['token']})
         console.log(dbResponse)
-        if(dbResponse['revoked'] == false){
-            let refundAmount = dbResponse['planAmount'] - dbResponse['useTime'];
+        let refundAmount = dbResponse['planAmount'] - dbResponse['useTime'];
+        if(!dbResponse['revoked'] && !dbResponse['refunded']){
         let lndResponse = await sendPayment(dbResponse['refundInvoice'], refundAmount)
             console.log(lndResponse)
-            await Token.findOneAndUpdate({token: req.body['token']}, { $set: { revoked: true } });
-            return res.status(200).json({"status": "Success", "response": `Refunded ${refundAmount}`})
+            await Token.findOneAndUpdate({token: req.body['token']}, { $set: { revoked: true ,refunded: true} });
+            return res.status(200).json({"status": "success", "response": `Refunded ${refundAmount}`})
+        } else if(dbResponse['refunded']) {
+            return res.status(200).json({"status": "info", "response": `Already refunded ${refundAmount}`})
         }
-        return res.status(200).json({"status": "Failed", "response": "Either Token expired or payment not received."});
+        return res.status(200).json({"status": "warning", "response": "Either Token expired or payment not received."});
     }
     res.status(400).json({"response": "Token parameter missing", "status": "error"})
 };
@@ -63,9 +65,9 @@ export const getRefund = async (req, res) => {
 
 export const getUserToken = async (req, res) => {
     if(req.body && req.body['username']) {
-        let dbResponse = await Token.find({username: req.body['username']},{payInvoice: 1, token: 1, useTime:1, planAmount: 1, revoked: 1})
+        let dbResponse = await Token.find({username: req.body['username']},{payInvoice: 1, token: 1, useTime:1, planAmount: 1, revoked: 1, refunded: 1})
         console.log(dbResponse)
-        return res.status(200).json({"response": dbResponse, , "status": "success"})
+        return res.status(200).json({"tokens": dbResponse, "status": "success"})
     }
     return res.status(400).json({"response": "username missing", "status": "error"})
 }
