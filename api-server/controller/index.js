@@ -48,8 +48,8 @@ export const getRefund = async (req, res) => {
     if(req.body && req.body['token']) {
         let dbResponse = await Token.findOne({token: req.body['token']})
         console.log(dbResponse)
-        let refundAmount = dbResponse['planAmount'] - dbResponse['useTime'];
-        if(!dbResponse['revoked'] && !dbResponse['refunded']){
+        let refundAmount = dbResponse['planAmount'] - Math.ceil(dbResponse['useTime']/60);
+        if(!dbResponse['revoked'] && !dbResponse['refunded'] && refundAmount > 0){
         let lndResponse = await sendPayment(dbResponse['refundInvoice'], refundAmount)
             console.log(lndResponse)
             await Token.findOneAndUpdate({token: req.body['token']}, { $set: { revoked: true ,refunded: true} });
