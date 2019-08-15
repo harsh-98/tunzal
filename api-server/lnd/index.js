@@ -23,7 +23,7 @@ export const lookupInvoice = async (rHash) => {
 };
 
 export const sendPayment = async (invoice, amt) => {
-    let cmd = `${lncli} sendpayment --pay_req=${invoice} --amt=${amt} <<< yes`
+    let cmd = `echo yes | ${lncli} sendpayment --pay_req=${invoice} --amt=${amt}`
     console.log(cmd)
     let response = await shell.exec(cmd).stdout
     console.log(response)

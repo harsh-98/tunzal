@@ -54,6 +54,7 @@ class Landing extends Component {
 
     copy() {
         this.setState({copy: true})
+        setTimeout(()=>this.setState({copy: false}),3000)
     }
 
     gotoGenerate() {
