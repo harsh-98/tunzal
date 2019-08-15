@@ -4,6 +4,7 @@ import routes from './routes';
 import mongo from 'mongodb';
 import path from 'path';
 import mongoose from 'mongoose';
+import fs from 'fs';
 
 require('dotenv').config()
 import https from 'https';
@@ -45,5 +46,5 @@ app.use('/api', routes);
 
 // Start the API
 var httpsServer = https.createServer(credentials, app);
-httpServer.listen(8000);
+httpsServer.listen(8000);
 console.log('info', `api running on port 8000`);

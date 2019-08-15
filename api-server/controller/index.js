@@ -30,7 +30,7 @@ export const checkInvoice = async (req, res) => {
     if(req.body && req.body['token']){
         let dbResponse = await Token.findOne({token: req.body['token']})
         console.log(dbResponse)
-        if(dbResponse['revoked'] && !invoiceDetails['refunded']){
+        if(dbResponse['revoked'] && !dbResponse['refunded']){
             let invoiceDetails = await lookupInvoice(dbResponse['rHash'])
             console.log(invoiceDetails)
             if(invoiceDetails['settled']){
@@ -39,6 +39,10 @@ export const checkInvoice = async (req, res) => {
             } else {
                 return res.status(200).json({"status": "warning", "response": "payment pending"});
             }
+        }
+
+        if (!dbResponse['revoked'] && !dbResponse['refunded']) {
+            return res.status(200).json({"status": "success", "response": "Token already active"});
         }
         return res.status(200).json({"status": "info", "response": "Refund collected, token expired"});
     }
