@@ -2,3 +2,4 @@
 node_modules
 lnd/admin.macaroon
 lnd/tls.cert
+cert

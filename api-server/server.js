@@ -4,7 +4,13 @@ import routes from './routes';
 import mongo from 'mongodb';
 import path from 'path';
 import mongoose from 'mongoose';
+
 require('dotenv').config()
+import https from 'https';
+var privateKey  = fs.readFileSync(process.env.PRIVKEY, 'utf8');
+var certificate = fs.readFileSync(process.env.CHAIN, 'utf8');
+
+var credentials = {key: privateKey, cert: certificate};
 
 mongoose.Promise = global.Promise;
 
@@ -38,5 +44,6 @@ app.use('/api', routes);
 
 
 // Start the API
-app.listen(8000);
+var httpsServer = https.createServer(credentials, app);
+httpServer.listen(8000);
 console.log('info', `api running on port 8000`);
