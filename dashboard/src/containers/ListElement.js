@@ -80,8 +80,8 @@ class ListElement extends Component {
                     </ExpansionPanelDetails>
                     <Divider />
                     <ExpansionPanelActions>
-                        <Button size="small" color="primary" onClick={()=> this.props.activateToken(this.props.tokenDetails.token)}>
-                            {this.props.tokenDetails.revoked ? "Activate" : "Activated"}
+                        <Button size="small" color="primary" onClick={()=> this.props.activateToken(this.props.tokenDetails.token)} disabled={this.props.tokenDetails.refunded}>
+                            { this.props.tokenDetails.refunded ? "Disabled": (this.props.tokenDetails.revoked ? "Activate" : "Activated" ) }
                         </Button>
                         <Button size="small" color="secondary" onClick={()=> this.props.getRefund(this.props.tokenDetails.token)}>
                             {this.props.tokenDetails.refunded ? "Refunded" : "Refund"}

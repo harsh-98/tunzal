@@ -6,7 +6,7 @@ import NavigationIcon from '@material-ui/icons/Navigation';
 import Fab from '@material-ui/core/Fab'
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Route, Link } from "react-router-dom";
 
 
 class App extends Component {
@@ -24,7 +24,7 @@ class App extends Component {
           if (!userData.username) {
             throw new Error('This app requires a username.')
           }
-          window.location = "/generate/token"
+          window.location = "/#/generate/token"
         })
     }
   }

@@ -177,7 +177,7 @@ class Landing extends Component {
     render() {
         return (
             <div>
-                <NavBar title={this.props.response.hasOwnProperty("status") ? "Your Tokens": "Generate Token"} message="View Tokens" endpoint="/list/tokens"/>
+                <NavBar title={this.props.response.hasOwnProperty("status") ? "Your Tokens": "Generate Token"} message="View Tokens" endpoint="/#/list/tokens"/>
                 <MySnackBar variant="success" message="Copied" open={this.state.copy} />
                 <Container maxWidth="lg" className="setplan">
                     {this.props.response.hasOwnProperty("status") ? this.renderApiResponse() : this.apiForm()}

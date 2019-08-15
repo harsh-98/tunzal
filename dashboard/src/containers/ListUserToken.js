@@ -24,7 +24,7 @@ class Landing extends Component {
     render() {
         return (
             <div>
-                <NavBar title="List tokens" message="Generate Token" endpoint="/generate/token"/>
+                <NavBar title="List tokens" message="Generate Token" endpoint="/#/generate/token"/>
                 <Grid container justify="center" spacing={10} style={{marginTop: 10}}>
                     {this.props.userToken.map((val, i) => {
                         return (<Grid item xs={12} sm={10} style={{padding: 10}} key={i} >
