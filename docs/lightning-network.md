@@ -36,4 +36,5 @@ I think btcpayserver should use a different method for determining the derivatio
 - https://www.soroushjp.com/2014/12/20/bitcoin-multisig-the-hard-way-understanding-raw-multisignature-bitcoin-transactions/
 - https://en.bitcoin.it/wiki/List_of_address_prefixes
 - https://github.com/lightningnetwork/lnd/pull/2455?source=post_page
+- https://coinfaucet.eu/en/btc-testnet/ sends .02 of btc in one go
 - https://bitcoinfaucet.uo1.net/ bitcoin faucet unlimited

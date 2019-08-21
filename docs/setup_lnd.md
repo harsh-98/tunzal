@@ -40,6 +40,8 @@ sample-btcd.conf
 - When running neutrino light wallet with lnd we have to specify the peer address on installation https://faucet.lightning.community/ is given
 - Checking the block height of mainnet and testnet https://live.blockcypher.com/btc-testnet/
 - slack of the lightingnetwork
+- https://1ml.com/testnet/ for finding lightning network nodes to connect
+- https://coinfaucet.eu/en/btc-testnet/ sends .02 of btc in one go
 
 
 ### Help from slack
