@@ -1,220 +1,172 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { purchasePlan,setResponse, activateToken } from '../actions'
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import './Landing.css';
-import NavBar from './NavBar';
-import MySnackBar from './MySnackBar';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-
+import './Landing.css'
 class Landing extends Component {
     constructor() {
         super()
-        this.state = { refundInvoice: "", plan: { duration: 0 }, index: -1, copied: false, user: {}}
-        this.selectPlan = this.selectPlan.bind(this)
-        this.renderApiResponse = this.renderApiResponse.bind(this)
-        this.apiForm = this.apiForm.bind(this)
-        this.copy = this.copy.bind(this)
-        this.gotoGenerate = this.gotoGenerate.bind(this)
-        this.signOut = this.signOut.bind(this)
-
-
-        // this.purchase = this.purchase.bind(this)
+        this.signIn = this.signIn.bind(this)
     }
 
-    componentWillMount(){
-        if (!this.state.user.hasOwnProperty('username')){
-            this.setState({ user: this.props.userSession.loadUserData()})
-        }
-    }
-    helperText() {
-        let amount = this.state.plan.duration;
-        if (amount != 0)
-            return `You will get refunded on this invoice, once you cancel your subscription. This invoice should be valid for duration of selected plan. In this case, for ${amount * 60} seconds.`
-        return ""
-    }
+    componentDidMount(){
+            const doc = document
+            const rootEl = doc.documentElement
+            const body = doc.getElementById("sample")
 
-    _handleTextFieldChange(e) {
-        this.setState({
-            refundInvoice: e.target.value
-        });
-    }
+            rootEl.classList.remove('no-js')
+            rootEl.classList.add('js')
 
-    selectPlan(i) {
-        this.setState({ plan: this.props.plans[i], index: i })
-    }
+            window.addEventListener('load', function () {
+              body.classList.add('is-loaded')
+            })
 
-    copy() {
-        this.setState({copy: true})
-        setTimeout(()=>this.setState({copy: false}),3000)
-    }
 
-    gotoGenerate() {
-        this.props.setResponse({})
-        this.setState({ plan: {duration: 0}, index: -1, refundInvoice: "" })
     }
-
-    signOut(e) {
+    signIn(e) {
         e.preventDefault()
-        this.props.userSession.signUserOut()
-        window.location = '/'
-    }
-
-    renderApiResponse() {
-        return (<div>
-            <Grid container spacing={3}>
-                <CopyToClipboard text={this.props.response.payInvoice}
-                    onCopy={this.copy}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="outlined-full-width"
-                            label="PayInvoice"
-                            disabled
-                            style={{ margin: 10 }}
-                            placeholder=""
-                            helperText="Pay invoice to active the api-token"
-                            fullWidth
-                            value={this.props.response.payInvoice}
-                            margin="normal"
-                            variant="outlined"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </Grid>
-                </CopyToClipboard>
-                <CopyToClipboard text={this.props.response.apiToken}
-                    onCopy={this.copy}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="outlined-full-width"
-                            label="Api Token"
-                            disabled
-                            style={{ margin: 10 }}
-                            placeholder=""
-                            helperText="Use this token with tunzal client for enjoying premium features."
-                            fullWidth
-                            // className="darkStyle"
-                            value={this.props.response.apiToken}
-                            margin="normal"
-                            variant="outlined"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </Grid>
-                </CopyToClipboard>
-            </Grid>
-            <Button variant="contained" color="primary" onClick={() => this.props.activateToken(this.props.response.apiToken)}>
-                {this.props.check.status == "success"? "Activated": "Activate"}
-                    </Button>
-            <div className="addButton" onClick={this.gotoGenerate}>
-          <Fab aria-label="Add"  color="primary">
-          <AddIcon />
-          </Fab>
-            </div>
-        </div>)
-    }
-
-    apiForm() {
-        return (<div>
-            Select Plan
-                <Grid container className="flexBox" spacing={2} >
-                <Grid item xs={12}>
-                    <Grid container justify="center" spacing={10}>
-                        {this.props.plans.map((value, i) => (
-                            <Grid key={value.name} item>
-                                <Card onClick={() => { this.selectPlan(i) }} raised={i == this.state.index} className="raise">
-                                    <CardContent>
-                                        <Grid item xs container direction="column" spacing={2}>
-                                            <Grid item xs>
-                                                <Typography gutterBottom variant="subtitle1">
-                                                    {value.name}
-                                                </Typography>
-                                                <Typography variant="body2" gutterBottom>
-                                                    {value.description}
-                                                </Typography>
-                                                <Typography variant="body2" color="textSecondary">
-                                                    {value.cost}
-                                                </Typography>
-                                            </Grid>
-                                        </Grid>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                    <TextField
-                        id="outlined-full-width"
-                        label="RefundInvoice"
-                        style={{ margin: 10 }}
-                        placeholder="Enter a zero amount invoice"
-                        helperText={this.helperText()}
-                        fullWidth
-                        onChange={this._handleTextFieldChange.bind(this)}
-                        margin="normal"
-                        variant="outlined"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                </Grid>
-            </Grid>
-            <Button variant="contained" color="primary" onClick={() => this.props.purchasePlan(this.state)}>
-                Purchase
-                    </Button>
-        </div>)
-    }
-
+        this.props.userSession.redirectToSignIn()
+      }
 
     render() {
         return (
-            <div>
-                <NavBar title={this.props.response.hasOwnProperty("status") ? "Your Tokens": "Generate Token"} message="View Tokens" endpoint="/#/list/tokens"/>
-                <MySnackBar variant="success" message="Copied" open={this.state.copy} />
-                <Container maxWidth="lg" className="setplan">
-                    {this.props.response.hasOwnProperty("status") ? this.renderApiResponse() : this.apiForm()}
-                </Container>
+<div id="sample" className="is-boxed has-animations lights-off">
+    <div class="body-wrap boxed-container">
+        <header class="site-header">
+            <div class="container">
+                <div class="site-header-inner">
+                    <div class="brand header-brand">
+                        <h1 class="m-0">
+                            <a href="#">
+								<img style={{ width: 40}}class="header-logo-image asset-dark" src="https://tunzal.ml/favicon.ico" alt="Logo"/>
+                            </a>
+                        </h1>
+                    </div>
+                </div>
             </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-inner">
+						<div class="hero-copy">
+	                        <h1 class="hero-title mt-0">Tunzal</h1>
+	                        <p class="hero-paragraph">Tunzal is a tunneling solution to expose local endpoint outside of the private network at minimum cost.</p>
+	                        <div class="hero-cta">
+								<a class="button button-primary" onClick={(e)=>{ this.signIn(e)}}>Sign in with Blockstack</a>
+							</div>
+						</div>
+						<div class="hero-media">
+							<div class="header-illustration">
+								<img class="header-illustration-image asset-dark" src="/images/header-illustration-dark.svg" alt="Header illustration"/>
+							</div>
+							<div class="hero-media-illustration">
+								<img class="hero-media-illustration-image asset-dark" src="/images/hero-media-illustration-dark.svg" alt="Hero media illustration"/>
+							</div>
+							<div class="hero-media-container">
+								<img class="hero-media-image asset-dark" style={{width: 560}} src="/images/front.png" alt="Hero media"/>
+							</div>
+						</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features section">
+                <div class="container">
+					<div class="features-inner section-inner has-bottom-divider">
+						<div class="features-header text-center">
+							<div class="container-sm">
+								<h2 class="section-title mt-0">Tunzal Service</h2>
+	                            <p class="section-paragraph"></p>
+								<div class="features-image">
+									<img class="features-illustration asset-dark" src="/images/features-illustration-dark.svg" alt="Feature illustration"/>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/9Lxm5o8BsM8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style={{position: 'relative'}}></iframe>
+								</div>
+							</div>
+                        </div>
+                        <div class="features-wrap">
+                            <div class="feature is-revealing">
+                                <div class="feature-inner">
+                                    <div class="feature-icon">
+										<img class="asset-dark" src="/images/feature-01-dark.svg" alt="Feature 01"/>
+                                    </div>
+									<div class="feature-content">
+                                    	<h3 class="feature-title mt-0">Expose to internet</h3>
+                                    	<p class="text-sm mb-0">Temporarily sharing a website that is only running on your development machine</p>
+									</div>
+								</div>
+                            </div>
+							<div class="feature is-revealing">
+                                <div class="feature-inner">
+                                    <div class="feature-icon">
+										<img class="asset-light" src="/images/feature-02-light.svg" alt="Feature 02"/>
+										<img class="asset-dark" src="/images/feature-02-dark.svg" alt="Feature 02"/>
+                                    </div>
+									<div class="feature-content">
+                                    	<h3 class="feature-title mt-0">Censorship resistant</h3>
+                                    	<p class="text-sm mb-0">Running networked services on machines that are firewalled off from the internet</p>
+									</div>
+								</div>
+                            </div>
+							<div class="feature is-revealing">
+                                <div class="feature-inner">
+                                    <div class="feature-icon">
+										<img class="asset-light" src="/images/feature-03-light.svg" alt="Feature 03"/>
+										<img class="asset-dark" src="/images/feature-03-dark.svg" alt="Feature 03"/>
+                                    </div>
+									<div class="feature-content">
+                                    	<h3 class="feature-title mt-0">Refunds</h3>
+                                    	<p class="text-sm mb-0">Users only pay for the usage duration of our service and can get rest refunded whenever they want.</p>
+									</div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+			<section class="cta section">
+                <div class="container-sm">
+                    <div class="cta-inner section-inner">
+                        <div class="cta-header text-center">
+                            <h2 class="section-title mt-0">Get tunzal and showcase your projects now</h2>
+                            <p class="section-paragraph">Tunzal provides you a public domain for exposed endpoint in minutes and charges minimal. Tunzal uses lightning network for payment, it enables us to provide refund to much valued users.</p>
+							<div class="cta-cta">
+								<a class="button button-primary" onClick={(e)=>{ this.signIn(e)}}>Sign in with blockstack</a>
+							</div>
+					    </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer has-top-divider">
+            <div class="container">
+                <div class="site-footer-inner">
+                    <div class="brand footer-brand">
+                    </div>
+                    <ul class="footer-links list-reset">
+                        <li>
+                            <a href="mailto:harshjniitr@gmail.com" target="_blank">Contact</a>
+                        </li>
+                        <li>
+                            <a href="https://devpost.com/software/tunzal" target="_blank">Devpost</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/harsh-98/tunzal/blob/master/assets/architecture.md" target="_blank">FAQ's</a>
+                        </li>
+                        <li>
+						<a href="https://github.com/harsh-98/tunzal" target="_blank">Github</a>
+                        </li>
+                    </ul>
+                    <ul class="footer-social-links list-reset">
+                    </ul>
+                    <div class="footer-copyright">&copy; 2019 Tunzal, all rights reserved</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
         )
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        plans: state.plans,
-        selected: state.selected,
-        response: state.response,
-        userSession: state.userSession,
-        check: state.check,
-        refund: state.refund,
-        userToken: state.userToken
-    }
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        purchasePlan: (state) => {
-            purchasePlan(state)(dispatch);
-        },
-        activateToken: (state) => {
-            activateToken(state)(dispatch);
-        },
-        setResponse: (state) => {
-            dispatch(setResponse(state));
-        },
-    }
-};
-
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps)(Landing);
+export default Landing

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import Landing from './Landing';
+import Main from './Main';
 import ListUserToken from './ListUserToken';
 import { connect } from 'react-redux';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import Fab from '@material-ui/core/Fab'
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
+import Landing from './Landing'
 import { HashRouter as Router, Route, Link } from "react-router-dom";
 
 
@@ -13,7 +14,7 @@ class App extends Component {
 
   constructor() {
     super()
-    this.signIn = this.signIn.bind(this)
+
   }
 
   componentWillMount() {
@@ -29,36 +30,35 @@ class App extends Component {
     }
   }
 
-  signIn(e) {
-    e.preventDefault()
-    this.props.userSession.redirectToSignIn()
-  }
+
 
   render() {
     return (
       <div>
         {!this.props.userSession.isUserSignedIn() ?
           (
-            <Grid style={{ backgroundColor: '#cfe8fc', height: '100vh' }}
-              container
-              direction="row"
-              justify="center"
-              alignItems="center"
-            >
-              <Fab variant="extended" color="secondary" aria-label="add" onClick={(e)=>{ this.signIn(e)}}>
-                <NavigationIcon />
-                SignIn with BlockStack
-              </Fab>
-            </Grid>)
+            // <Grid style={{ backgroundColor: '#cfe8fc', height: '100vh' }}
+            //   container
+            //   direction="row"
+            //   justify="center"
+            //   alignItems="center"
+            // >
+            //   <Fab variant="extended" color="secondary" aria-label="add" onClick={(e)=>{ this.signIn(e)}}>
+            //     <NavigationIcon />
+            //     SignIn with BlockStack
+            //   </Fab>
+            // </Grid>
+            <Landing userSession={this.props.userSession}/>
+            )
           :
           <Router>
               <Route exact
                 path='/generate/token'
-                component={() => <Landing/>}
+                component={() => <Main/>}
               />
               <Route exact
                 path='/'
-                component={() => <Landing/>}
+                component={() => <Main/>}
               />
               <Route exact
                 path='/list/tokens'

@@ -1,0 +1,27 @@
+.paper {
+    height: 100px;
+    width: 140px;
+}
+
+.flexBox {
+    display: flex;
+}
+
+.raise:hover {
+    width: 102%;
+    height: 102%;
+}
+
+.setplan {
+    margin: 100px auto;
+}
+
+.darkStyle {
+    background-color: #B9BBB6;
+}
+
+.addButton{
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+}
