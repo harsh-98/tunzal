@@ -41,3 +41,4 @@ The dashboard is available at https://tunzal.ml.
 - https://dev.lightning.community/tutorial/
 - https://github.com/lightningnetwork/lnd/
 - https://bitcoinfaucet.uo1.net/
+- https://zocada.com/setting-mongodb-users-beginners-guide/
