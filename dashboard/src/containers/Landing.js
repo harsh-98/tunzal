@@ -97,7 +97,6 @@ class Landing extends Component {
 							<div class="feature is-revealing">
                                 <div class="feature-inner">
                                     <div class="feature-icon">
-										<img class="asset-light" src="/images/feature-02-light.svg" alt="Feature 02"/>
 										<img class="asset-dark" src="/images/feature-02-dark.svg" alt="Feature 02"/>
                                     </div>
 									<div class="feature-content">
@@ -109,7 +108,6 @@ class Landing extends Component {
 							<div class="feature is-revealing">
                                 <div class="feature-inner">
                                     <div class="feature-icon">
-										<img class="asset-light" src="/images/feature-03-light.svg" alt="Feature 03"/>
 										<img class="asset-dark" src="/images/feature-03-dark.svg" alt="Feature 03"/>
                                     </div>
 									<div class="feature-content">
@@ -145,16 +143,16 @@ class Landing extends Component {
                     </div>
                     <ul class="footer-links list-reset">
                         <li>
-                            <a href="mailto:harshjniitr@gmail.com" target="_blank">Contact</a>
+                            <a href="mailto:harshjniitr@gmail.com" rel="noopener noreferrer" target="_blank">Contact</a>
                         </li>
                         <li>
-                            <a href="https://devpost.com/software/tunzal" target="_blank">Devpost</a>
+                            <a href="https://devpost.com/software/tunzal" rel="noopener noreferrer" target="_blank">Devpost</a>
                         </li>
                         <li>
-                            <a href="https://github.com/harsh-98/tunzal/blob/master/assets/architecture.md" target="_blank">FAQ's</a>
+                            <a href="https://github.com/harsh-98/tunzal/blob/master/assets/architecture.md" rel="noopener noreferrer" target="_blank">FAQ's</a>
                         </li>
                         <li>
-						<a href="https://github.com/harsh-98/tunzal" target="_blank">Github</a>
+						<a href="https://github.com/harsh-98/tunzal" rel="noopener noreferrer" target="_blank">Github</a>
                         </li>
                     </ul>
                     <ul class="footer-social-links list-reset">

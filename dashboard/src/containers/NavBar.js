@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -56,7 +56,7 @@ class NavBar extends Component {
             <Typography variant="h6" className="username">
               {this.state.user.username}
             </Typography>
-            <a target='_blank' href="https://github.com/harsh-98/tunzal/releases" style={{color: 'white'}}>
+            <a target='_blank' rel="noopener noreferrer" href="https://github.com/harsh-98/tunzal/releases" style={{color: 'white'}}>
               <IconButton edge="start" color="inherit" aria-label="menu">
               <CloudDownloadIcon/>
               </IconButton>

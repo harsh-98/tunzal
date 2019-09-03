@@ -23,20 +23,20 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 class ListElement extends Component {
     constructor() {
         super()
-        this.state={snackbar: {open: false, message: "", status: "success"} }
+        this.state = { snackbar: { open: false, message: "", status: "success" } }
         this.copyValue = this.copyValue.bind(this)
     }
 
     copyValue(e) {
-        this.setState({ snackbar: {open: true, message: "Copied", status: "success"} })
+        this.setState({ snackbar: { open: true, message: "Copied", status: "success" } })
     }
     componentDidUpdate() {
-        if(this.props.check.hasOwnProperty("status")){
-            this.setState({ snackbar: {open: true, message: this.props.check.response, status: this.props.check.status} })
+        if (this.props.check.hasOwnProperty("status")) {
+            this.setState({ snackbar: { open: true, message: this.props.check.response, status: this.props.check.status } })
             this.props.clearCheck()
         }
-        if(this.props.refund.hasOwnProperty("status")){
-            this.setState({ snackbar: {open: true, message: this.props.refund.response, status: this.props.refund.status} })
+        if (this.props.refund.hasOwnProperty("status")) {
+            this.setState({ snackbar: { open: true, message: this.props.refund.response, status: this.props.refund.status } })
             this.props.clearRefund()
         }
     }
@@ -58,32 +58,32 @@ class ListElement extends Component {
                         </div>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                            <CopyToClipboard text={this.props.tokenDetails.token}
-                                onCopy={this.copyValue}>
-                                <Chip
-                                    avatar={<FileCopyIcon />}
-                                    label={`Token: ${this.props.tokenDetails.token.substring(0, 30)}...`}
-                                    clickable
-                                // onDelete={handleDelete}
-                                />
-                            </CopyToClipboard>
-                            <CopyToClipboard text={this.props.tokenDetails.payInvoice}
-                                onCopy={this.copyValue}>
-                                <Chip
-                                    avatar={<FileCopyIcon />}
-                                    label={`PayInvoice: ${this.props.tokenDetails.payInvoice.substring(0, 40)}...`}
-                                    clickable
+                        <CopyToClipboard text={this.props.tokenDetails.token}
+                            onCopy={this.copyValue}>
+                            <Chip
+                                avatar={<FileCopyIcon />}
+                                label={`Token: ${this.props.tokenDetails.token.substring(0, 30)}...`}
+                                clickable
+                            // onDelete={handleDelete}
+                            />
+                        </CopyToClipboard>
+                        <CopyToClipboard text={this.props.tokenDetails.payInvoice}
+                            onCopy={this.copyValue}>
+                            <Chip
+                                avatar={<FileCopyIcon />}
+                                label={`PayInvoice: ${this.props.tokenDetails.payInvoice.substring(0, 40)}...`}
+                                clickable
 
-                                // onDelete={handleDelete}
-                                />
-                            </CopyToClipboard>
+                            // onDelete={handleDelete}
+                            />
+                        </CopyToClipboard>
                     </ExpansionPanelDetails>
                     <Divider />
                     <ExpansionPanelActions>
-                        <Button size="small" color="primary" onClick={()=> this.props.activateToken(this.props.tokenDetails.token)} disabled={this.props.tokenDetails.refunded}>
-                            { this.props.tokenDetails.refunded ? "Disabled": (this.props.tokenDetails.revoked ? "Activate" : "Activated" ) }
+                        <Button size="small" color="primary" onClick={() => this.props.activateToken(this.props.tokenDetails.token)} disabled={this.props.tokenDetails.refunded}>
+                            {this.props.tokenDetails.refunded ? "Disabled" : (this.props.tokenDetails.revoked ? "Activate" : "Activated")}
                         </Button>
-                        <Button size="small" color="secondary" onClick={()=> this.props.getRefund(this.props.tokenDetails.token)}>
+                        <Button size="small" color="secondary" onClick={() => this.props.getRefund(this.props.tokenDetails.token)}>
                             {this.props.tokenDetails.refunded ? "Refunded" : "Refund"}
                         </Button>
                     </ExpansionPanelActions>
@@ -111,10 +111,10 @@ const mapDispatchToProps = dispatch => {
         activateToken: (state) => {
             activateToken(state)(dispatch);
         },
-        clearRefund: () =>{
+        clearRefund: () => {
             dispatch(clearRefund());
         },
-        clearCheck: () =>{
+        clearCheck: () => {
             dispatch(clearCheck());
         },
     }
